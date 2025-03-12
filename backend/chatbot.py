@@ -18,20 +18,17 @@ class EmoCareAssistant:
             # Analyze sentiment
             sentiment_result = self.sentiment_analyzer.analyze_sentiment(user_message)
             
-            # Generate AI response
-            context = "\n".join(self.conversation_history[-3:])  # Use last 3 messages for context
+            # Prepare context (last 5 messages)
+            context = "\n".join([
+                f"{msg['role'].capitalize()}: {msg['content']}" 
+                for msg in self.conversation_history[-5:]
+            ])
+            
+            # Generate AI response with context
             ai_response = self.model.generate_response(context, user_message)
             
             # Get wellness suggestion
             wellness_tip = self.wellness_suggester.get_suggestion(sentiment_result['sentiment'])
-            
-            # Update conversation history
-            self.conversation_history.append(f"User: {user_message}")
-            self.conversation_history.append(f"AI: {ai_response}")
-            
-            # Limit conversation history
-            if len(self.conversation_history) > 10:
-                self.conversation_history = self.conversation_history[-10:]
             
             return {
                 'response': ai_response,

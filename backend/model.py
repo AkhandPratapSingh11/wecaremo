@@ -3,10 +3,6 @@ from groq import Groq
 from dotenv import load_dotenv
 import logging
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
 class EmoCareModel:
     def __init__(self):
         try:
@@ -15,18 +11,23 @@ class EmoCareModel:
                 api_key=os.getenv('GROQ_API_KEY', '')
             )
             self.model = "qwen-2.5-32b"
-            logger.info("EmoCare Model initialized successfully")
+            logging.info("EmoCare Model initialized successfully")
         except Exception as e:
-            logger.error(f"Model initialization error: {e}")
+            logging.error(f"Model initialization error: {e}")
             raise
 
     def generate_response(self, context, user_message):
         """
-        Generate empathetic response using Groq Qwen model
+        Generate empathetic response using Groq Qwen model with conversation context
         """
         try:
-            # Combine context and user message
-            full_prompt = f"Previous Context: {context}\n\nUser Message: {user_message}"
+            # Prepare a comprehensive prompt with context
+            full_prompt = f"""Conversation Context:
+{context}
+
+Latest User Message: {user_message}
+
+Please provide a thoughtful, empathetic, and contextually relevant response."""
             
             chat_completion = self.client.chat.completions.create(
                 messages=[
@@ -35,7 +36,8 @@ class EmoCareModel:
                         "content": """You are EmoCare, an empathetic AI wellness assistant. 
                         Provide supportive, understanding responses that help users 
                         with their emotional well-being. Be kind, non-judgmental, 
-                        and offer constructive advice."""
+                        and offer constructive advice. Maintain context of the conversation 
+                        and provide personalized support."""
                     },
                     {
                         "role": "user",
@@ -48,8 +50,8 @@ class EmoCareModel:
             )
             
             response = chat_completion.choices[0].message.content
-            logger.info("Response generated successfully")
+            logging.info("Response generated successfully")
             return response
         except Exception as e:
-            logger.error(f"Response generation error: {e}")
-            return f"I'm experiencing some difficulties. {str(e)}"
+            logging.error(f"Response generation error: {e}")
+            return f"I'm experiencing some difficulties understanding the context. {str(e)}"

@@ -46,10 +46,30 @@ def main():
     if 'assistant' not in st.session_state:
         st.session_state.assistant = EmoCareAssistant()
     
+    # Initialize conversation history in session state
+    if 'conversation_history' not in st.session_state:
+        st.session_state.conversation_history = []
+
+    # Display conversation history
+    for message in st.session_state.conversation_history:
+        if message['role'] == 'user':
+            st.chat_message("user").write(message['content'])
+        else:
+            st.chat_message("assistant").write(message['content'])
+
     # Chat input
-    user_message = st.text_input("Share your thoughts and feelings...", key="user_input")
+    user_message = st.chat_input("Share your thoughts and feelings...")
     
     if user_message:
+        # Add user message to conversation history
+        st.session_state.conversation_history.append({
+            'role': 'user',
+            'content': user_message
+        })
+        
+        # Display user message
+        st.chat_message("user").write(user_message)
+        
         # Process message
         result = st.session_state.assistant.process_message(user_message)
         
@@ -65,7 +85,14 @@ def main():
         """, unsafe_allow_html=True)
         
         # AI Response
-        st.write("EmoCare:", result['response'])
+        ai_response = result['response']
+        st.chat_message("assistant").write(ai_response)
+        
+        # Add AI response to conversation history
+        st.session_state.conversation_history.append({
+            'role': 'assistant',
+            'content': ai_response
+        })
         
         # Wellness Tip
         st.info(f"💡 Wellness Insight: {result['wellness_tip']}")
