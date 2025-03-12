@@ -1,69 +1,74 @@
 import streamlit as st
-from chatbot import get_response
+import plotly.graph_objs as go
+from backend.chatbot import EmoCareAssistant
 
-# Streamlit Page Configuration
-st.set_page_config(page_title="EmoCare - AI Wellness Assistant", page_icon="💙", layout="wide")
-
-# Custom Styling
-st.markdown("""
-    <style>
-        .reportview-container {
-            background: #f0f2f6;
+def create_sentiment_gauge(sentiment, polarity):
+    """
+    Create an interactive sentiment gauge
+    """
+    sentiment_map = {
+        'very negative': 0,
+        'negative': 25,
+        'neutral': 50,
+        'positive': 75,
+        'very positive': 100
+    }
+    
+    fig = go.Figure(go.Indicator(
+        mode="gauge+number",
+        value=sentiment_map.get(sentiment, 50),
+        domain={'x': [0, 1], 'y': [0, 1]},
+        title={'text': "Emotional Wellness"},
+        gauge={
+            'axis': {'range': [0, 100]},
+            'bar': {'color': "darkblue"},
+            'steps': [
+                {'range': [0, 25], 'color': "red"},
+                {'range': [25, 50], 'color': "orange"},
+                {'range': [50, 75], 'color': "yellow"},
+                {'range': [75, 100], 'color': "green"}
+            ]
         }
-        .chat-container {
-            max-width: 700px;
-            margin: auto;
-            padding: 20px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-        }
-        .user-msg {
-            background-color: #DCF8C6;
-            padding: 10px;
-            border-radius: 10px;
-            margin-bottom: 5px;
-            width: fit-content;
-        }
-        .bot-msg {
-            background-color: #EAEAEA;
-            padding: 10px;
-            border-radius: 10px;
-            margin-bottom: 5px;
-            width: fit-content;
-        }
-    </style>
-""", unsafe_allow_html=True)
+    ))
+    
+    st.plotly_chart(fig)
 
-# Initialize Chat Memory
-if "chat_history" not in st.session_state:
-    st.session_state.chat_history = []
+def main():
+    st.set_page_config(
+        page_title="EmoCare - Wellness Assistant",
+        page_icon="❤️",
+        layout="centered"
+    )
+    
+    st.title("🌈 EmoCare: Your Emotional Wellness Companion")
+    
+    # Initialize session state
+    if 'assistant' not in st.session_state:
+        st.session_state.assistant = EmoCareAssistant()
+    
+    # Chat input
+    user_message = st.text_input("Share your thoughts and feelings...", key="user_input")
+    
+    if user_message:
+        # Process message
+        result = st.session_state.assistant.process_message(user_message)
+        
+        # Sentiment Gauge
+        create_sentiment_gauge(result['sentiment'], result['polarity'])
+        
+        # Sentiment Display
+        st.markdown(f"""
+        **Emotional State:** 
+        <span style='color:{result['sentiment_color']};font-weight:bold'>
+        {result['sentiment'].upper()}
+        </span>
+        """, unsafe_allow_html=True)
+        
+        # AI Response
+        st.write("EmoCare:", result['response'])
+        
+        # Wellness Tip
+        st.info(f"💡 Wellness Insight: {result['wellness_tip']}")
 
-# Header
-st.title("💙 EmoCare - Your AI Wellness Companion")
-st.write("🤖 Type your thoughts, and I'll offer **emotional support** & **wellness suggestions**.")
-
-# Chat UI
-with st.container():
-    for entry in st.session_state.chat_history:
-        if entry["role"] == "user":
-            st.markdown(f"<div class='user-msg'>{entry['message']}</div>", unsafe_allow_html=True)
-        else:
-            st.markdown(f"<div class='bot-msg'>{entry['message']}</div>", unsafe_allow_html=True)
-
-# User Input
-user_input = st.text_input("💬 Your Message:", key="user_input")
-
-if st.button("Send", key="send_btn"):
-    if user_input.strip():
-        # Store User Message
-        st.session_state.chat_history.append({"role": "user", "message": user_input})
-
-        # Get AI Response
-        bot_response = get_response(user_input)
-
-        # Store AI Response
-        st.session_state.chat_history.append({"role": "bot", "message": bot_response})
-
-        # Refresh the page to show new messages
-        st.experimental_rerun()
+if __name__ == "__main__":
+    main()

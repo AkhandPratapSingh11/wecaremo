@@ -1,36 +1,15 @@
-class ConversationMemory:
-    """
-    Manages conversation history for context-aware AI responses.
-    Stores user and AI messages in a session-like format.
-    """
+from langchain.memory import ConversationBufferMemory
 
+class EmoCareMemory:
     def __init__(self):
-        """Initializes an empty conversation history."""
-        self.chat_history = []
+        self.memory = ConversationBufferMemory(return_messages=True)
 
-    def save_message(self, role: str, content: str):
-        """
-        Saves a message to the conversation history.
-        
-        Args:
-            role (str): Role of the message sender ("User" or "AI").
-            content (str): The message content.
-        """
-        self.chat_history.append({"role": role, "content": content})
+    def add_user_message(self, message):
+        self.memory.chat_memory.add_user_message(message)
 
-        # Maintain only the last 10 exchanges for efficiency
-        if len(self.chat_history) > 20:
-            self.chat_history.pop(0)
+    def add_ai_message(self, message):
+        self.memory.chat_memory.add_ai_message(message)
 
-    def get_chat_history(self):
-        """
-        Retrieves the chat history.
-        
-        Returns:
-            list: List of past user and AI messages.
-        """
-        return self.chat_history
-
-    def clear_memory(self):
-        """Clears the conversation history."""
-        self.chat_history = []
+    def get_context(self):
+        messages = self.memory.chat_memory.messages
+        return "\n".join([f"{msg.type}: {msg.content}" for msg in messages])

@@ -1,57 +1,51 @@
-import os
-import groq
-from memory import ConversationMemory
-from wellness_suggestion import get_wellness_suggestion
-from dotenv import load_dotenv
+from .model import EmoCareModel
+from .sentiment_analyzer import SentimentAnalyzer
+from .wellness_suggestion import WellnessSuggestions
+import logging
 
-# Load API key from .env file
-load_dotenv()
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+class EmoCareAssistant:
+    def __init__(self):
+        self.model = EmoCareModel()
+        self.sentiment_analyzer = SentimentAnalyzer()
+        self.wellness_suggester = WellnessSuggestions()
+        self.conversation_history = []
 
-# Initialize Groq AI Client
-client = groq.Client(api_key=GROQ_API_KEY)
-
-# Initialize conversation memory
-memory = ConversationMemory()
-
-def generate_response(user_input: str) -> str:
-    """
-    Generates an AI-powered response based on user input.
-    
-    Args:
-        user_input (str): The user's message.
-    
-    Returns:
-        str: AI-generated response.
-    """
-    try:
-        # Retrieve chat history
-        chat_history = memory.get_chat_history()
-
-        # Format the conversation for context
-        conversation = "\n".join([f"{msg['role']}: {msg['content']}" for msg in chat_history])
-        prompt = f"{conversation}\nUser: {user_input}\nAI:"
-
-        # Generate response using Groq API
-        response = client.chat.completions.create(
-            model="mixtral-8x7b-32768",
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=200
-        )
-
-        ai_response = response.choices[0].message["content"].strip()
-
-        # Save conversation in memory
-        memory.save_message("User", user_input)
-        memory.save_message("AI", ai_response)
-
-        # Check for wellness suggestions
-        wellness_tip = get_wellness_suggestion(user_input)
-        if wellness_tip:
-            ai_response += f"\n\n💡 Wellness Tip: {wellness_tip}"
-
-        return ai_response
-
-    except Exception as e:
-        return f"⚠️ An error occurred: {str(e)}"
-
+    def process_message(self, user_message):
+        """
+        Process user message and generate comprehensive response
+        """
+        try:
+            # Analyze sentiment
+            sentiment_result = self.sentiment_analyzer.analyze_sentiment(user_message)
+            
+            # Generate AI response
+            context = "\n".join(self.conversation_history[-3:])  # Use last 3 messages for context
+            ai_response = self.model.generate_response(context, user_message)
+            
+            # Get wellness suggestion
+            wellness_tip = self.wellness_suggester.get_suggestion(sentiment_result['sentiment'])
+            
+            # Update conversation history
+            self.conversation_history.append(f"User: {user_message}")
+            self.conversation_history.append(f"AI: {ai_response}")
+            
+            # Limit conversation history
+            if len(self.conversation_history) > 10:
+                self.conversation_history = self.conversation_history[-10:]
+            
+            return {
+                'response': ai_response,
+                'sentiment': sentiment_result['sentiment'],
+                'sentiment_color': sentiment_result['color'],
+                'wellness_tip': wellness_tip,
+                'polarity': sentiment_result['polarity']
+            }
+        except Exception as e:
+            logging.error(f"Message processing error: {e}")
+            return {
+                'response': "I'm having trouble processing your message.",
+                'sentiment': 'neutral',
+                'sentiment_color': 'gray',
+                'wellness_tip': "Take a moment to breathe and relax.",
+                'polarity': 0
+            }
