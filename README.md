@@ -1,4 +1,4 @@
-# EmoCare - AI-Powered Conversational Wellness Assistant
+# WeCarEmo - AI-Powered Conversational Wellness Assistant
 
 ## 📌 Project Overview
 EmoCare is an AI-driven conversational wellness assistant designed to provide **emotional support and personalized wellness suggestions**. It leverages **Natural Language Processing (NLP)** and **Generative AI** to understand human emotions, enabling meaningful and supportive conversations. The model is built using **Groq's AI API** for intelligent responses.
