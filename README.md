@@ -7,7 +7,7 @@ EmoCare is an AI-driven conversational wellness assistant designed to provide **
 - **Conversational AI Chatbot**: Understands emotions and provides empathetic responses.
 - **Sentiment Analysis**: Analyzes user messages to detect emotions.
 - **Wellness Recommendations**: Suggests relaxation techniques, mental health tips, and activities based on sentiment analysis.
-- **Memory Retention**: Stores past conversations for context-aware interactions.
+- **Memory Retention**: Stores past conversations for context-aware interactions.(currently working on it)
 - **Streamlit-Based UI**: Simple and interactive frontend for seamless user experience.
 
 ## 🚀 Tech Stack
@@ -74,24 +74,13 @@ GROQ_API_KEY=your_groq_api_key_here
 streamlit run main.py
 ```
 
-## 📸 Screenshots
-*(Upload UI snapshots here)*
-
 ## 🔗 Demo
 [Live Demo](#) *(If hosted online)*
 
 ## 🛠️ Future Enhancements
 - [ ] Multi-lingual support 🌍
-- [ ] Integration with voice recognition 🎙️
-- [ ] More detailed sentiment tracking 📊
+- [ ] Integration with voice recognition(currently working for it) 🎙️
+- [ ] More detailed sentiment tracking 📊.
 
-## 📜 License
-This project is licensed under the **MIT License**.
-
-## 🙌 Contributors
-- **Akhand Pratap Singh** ([@your-github](https://github.com/your-username))
-- And other collaborators...
-
----
 💡 *Feel free to contribute! Fork the repo, create a pull request, and help improve EmoCare.* 🚀
 
