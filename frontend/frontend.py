@@ -23,18 +23,58 @@ class EmoCareInterface:
         logging.basicConfig(level=logging.INFO)
         self.logger = logging.getLogger(__name__)
 
-    def render_sidebar(self):
+    def render_sidebar(self, sentiment_result=None):
         """
-        Render application sidebar with additional information
+        Render application sidebar with sentiment and wellness information
         """
         st.sidebar.title("EmoCare Assistant")
-        st.sidebar.info("""
-        🤖 Your Emotional Wellness Companion
         
-        Features:
-        - Sentiment Analysis
-        - Personalized Wellness Suggestions
-        - Supportive Conversations
+        # Sentiment Analysis Section
+        st.sidebar.header("🌈 Sentiment Insights")
+        
+        if sentiment_result:
+            # Sentiment Visualization
+            sentiment = sentiment_result.get('sentiment', 'N/A')
+            polarity = sentiment_result.get('polarity', 0)
+            color = sentiment_result.get('color', 'gray')
+            specific_emotion = sentiment_result.get('specific_emotion', 'N/A')
+            
+            # Sentiment Emoji Mapping
+            sentiment_emojis = {
+                'very negative': '😫',
+                'negative': '😔',
+                'neutral': '😐',
+                'positive': '😊',
+                'very positive': '😄'
+            }
+            
+            # Display Sentiment Details
+            st.sidebar.markdown(f"""
+            ### Current Emotional State
+            
+            **Sentiment:** {sentiment_emojis.get(sentiment, '🤔')} {sentiment.title()}
+            
+            **Emotional Depth:**
+            - Polarity: {polarity:.2f}
+            - Specific Emotion: {specific_emotion.title()}
+            
+            **Sentiment Intensity:**
+            {"▇" * int(abs(polarity) * 5)}
+            """)
+            
+            # Color-coded Sentiment Bar
+            st.sidebar.markdown(f"""
+            <div style="background-color:{color};height:10px;width:100%;"></div>
+            """, unsafe_allow_html=True)
+        
+        # Wellness Information Section
+        st.sidebar.header("🌟 Wellness Tips")
+        st.sidebar.info("""
+        Emotional well-being is a journey.
+        
+        - Practice self-compassion
+        - Stay mindful
+        - Seek support when needed
         """)
 
     def render_chat_interface(self):
@@ -48,6 +88,15 @@ class EmoCareInterface:
         # Initialize session state for chat history
         if 'messages' not in st.session_state:
             st.session_state.messages = []
+        
+        # Initialize session state for last sentiment
+        if 'last_sentiment' not in st.session_state:
+            st.session_state.last_sentiment = None
+
+        # Render existing messages in the main bar
+        for message in st.session_state.messages:
+            with st.chat_message(message["role"]):
+                st.markdown(message["content"])
 
         # Chat input
         user_input = st.chat_input("How are you feeling today?")
@@ -55,50 +104,68 @@ class EmoCareInterface:
         # Process user input
         if user_input:
             try:
-                # Add user message to chat history
+                # Add user message to chat history and display
                 st.session_state.messages.append({
                     "role": "user", 
                     "content": user_input
                 })
+                with st.chat_message("user"):
+                    st.markdown(user_input)
 
                 # Process message through chatbot
-                try:
-                    response = self.chatbot.process_message(user_input)
-                except Exception as process_error:
-                    st.error(f"Error processing message: {process_error}")
-                    self.logger.error(f"Message processing error: {process_error}")
-                    return
+                response = self.process_message(user_input)
 
-                # Add AI response to chat history
-                st.session_state.messages.append({
-                    "role": "assistant", 
-                    "content": response.get('response', "I'm having trouble responding.")
-                })
-
-                # Display chat history
-                for message in st.session_state.messages:
-                    with st.chat_message(message["role"]):
-                        st.markdown(message["content"])
-
-                # Display additional insights
-                col1, col2 = st.columns(2)
-                with col1:
-                    st.metric("Sentiment", response.get('sentiment', 'N/A'))
-                with col2:
-                    st.success(f"Wellness Tip: {response.get('wellness_tip', 'Take care of yourself.')}")
+                # Render sidebar with sentiment
+                self.render_sidebar(
+                    sentiment_result=st.session_state.get('last_sentiment')
+                )
 
             except Exception as e:
                 st.error(f"An unexpected error occurred: {e}")
                 self.logger.error(f"Chat processing error: {e}")
+
+        else:
+            # Render sidebar even without new messages
+            self.render_sidebar(
+                sentiment_result=st.session_state.get('last_sentiment')
+            )
+
+    def process_message(self, user_input):
+        """
+        Process user message and handle response
+        """
+        try:
+            # Process message through chatbot
+            response = self.chatbot.process_message(user_input)
+            
+            # Store sentiment for sidebar
+            st.session_state.last_sentiment = {
+                'sentiment': response.get('sentiment', 'N/A'),
+                'polarity': response.get('polarity', 0),
+                'color': response.get('sentiment_color', 'gray'),
+                'specific_emotion': response.get('specific_emotion', 'N/A')
+            }
+
+            # Add AI response to chat history and display
+            st.session_state.messages.append({
+                "role": "assistant", 
+                "content": response.get('response', "I'm having trouble responding.")
+            })
+            with st.chat_message("assistant"):
+                st.markdown(response.get('response', "I'm having trouble responding."))
+
+            return response
+
+        except Exception as process_error:
+            st.error(f"Error processing message: {process_error}")
+            self.logger.error(f"Message processing error: {process_error}")
+            return None
 
     def main(self):
         """
         Main application entry point
         """
         try:
-            # Render sidebar
-            self.render_sidebar()
-
             # Render chat interface
             self.render_chat_interface()
 

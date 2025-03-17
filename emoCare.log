@@ -8,3 +8,81 @@
 2025-03-17 10:47:14,977 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
 2025-03-17 10:47:14,980 - INFO - Response generated successfully
 2025-03-17 10:47:14,980 - ERROR - Wellness suggestion error: 'str' object has no attribute 'get'
+2025-03-17 10:50:45,562 - INFO - EmoCare Model initialized successfully
+2025-03-17 10:50:46,360 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-17 10:50:46,363 - INFO - Response generated successfully
+2025-03-17 10:50:46,363 - ERROR - Wellness suggestion error: 'str' object has no attribute 'get'
+2025-03-17 10:50:58,868 - INFO - EmoCare Model initialized successfully
+2025-03-17 10:50:59,624 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-17 10:50:59,626 - INFO - Response generated successfully
+2025-03-17 10:50:59,626 - ERROR - Wellness suggestion error: 'str' object has no attribute 'get'
+2025-03-17 10:51:14,098 - INFO - EmoCare Model initialized successfully
+2025-03-17 10:51:15,035 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-17 10:51:15,038 - INFO - Response generated successfully
+2025-03-17 10:51:15,038 - ERROR - Wellness suggestion error: 'str' object has no attribute 'get'
+2025-03-17 10:52:05,551 - INFO - EmoCare Model initialized successfully
+2025-03-17 10:52:09,540 - INFO - EmoCare Model initialized successfully
+2025-03-17 10:52:10,174 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-17 10:52:10,177 - INFO - Response generated successfully
+2025-03-17 10:52:10,177 - ERROR - Wellness suggestion error: 'str' object has no attribute 'get'
+2025-03-17 10:57:07,313 - ERROR - Unexpected error: expected 'except' or 'finally' block (frontend.py, line 142)
+Traceback (most recent call last):
+  File "/home/akhand/Desktop/New Folder 1/wecaremo/main.py", line 20, in main
+    from frontend.frontend import main as frontend_main
+  File "/home/akhand/Desktop/New Folder 1/wecaremo/frontend/frontend.py", line 142
+    self.render_sidebar(
+SyntaxError: expected 'except' or 'finally' block
+2025-03-17 10:59:11,851 - INFO - EmoCare Model initialized successfully
+2025-03-17 10:59:15,679 - INFO - EmoCare Model initialized successfully
+2025-03-17 10:59:16,450 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-17 10:59:16,452 - INFO - Response generated successfully
+2025-03-17 10:59:16,452 - ERROR - Wellness suggestion error: 'str' object has no attribute 'get'
+2025-03-17 11:01:39,523 - INFO - EmoCare Model initialized successfully
+2025-03-17 11:01:42,880 - INFO - EmoCare Model initialized successfully
+2025-03-17 11:01:43,596 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-17 11:01:43,598 - INFO - Response generated successfully
+2025-03-17 11:01:43,598 - ERROR - Wellness suggestion error: 'str' object has no attribute 'get'
+2025-03-17 11:01:58,518 - INFO - EmoCare Model initialized successfully
+2025-03-17 11:01:59,366 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-17 11:01:59,369 - INFO - Response generated successfully
+2025-03-17 11:01:59,369 - ERROR - Wellness suggestion error: 'str' object has no attribute 'get'
+2025-03-17 11:02:09,678 - INFO - EmoCare Model initialized successfully
+2025-03-17 11:02:10,624 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-17 11:02:10,626 - INFO - Response generated successfully
+2025-03-17 11:02:10,626 - ERROR - Wellness suggestion error: 'str' object has no attribute 'get'
+2025-03-17 11:02:30,990 - INFO - EmoCare Model initialized successfully
+2025-03-17 11:02:31,927 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-17 11:02:31,931 - INFO - Response generated successfully
+2025-03-17 11:02:31,931 - ERROR - Wellness suggestion error: 'str' object has no attribute 'get'
+2025-03-17 11:02:54,783 - INFO - EmoCare Model initialized successfully
+2025-03-17 11:02:55,679 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-17 11:02:55,683 - INFO - Response generated successfully
+2025-03-17 11:02:55,683 - ERROR - Wellness suggestion error: 'str' object has no attribute 'get'
+2025-03-17 11:03:24,439 - INFO - EmoCare Model initialized successfully
+2025-03-17 11:03:25,580 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-17 11:03:25,583 - INFO - Response generated successfully
+2025-03-17 11:03:25,583 - ERROR - Wellness suggestion error: 'str' object has no attribute 'get'
+2025-03-17 11:03:50,036 - INFO - EmoCare Model initialized successfully
+2025-03-17 11:03:50,778 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-17 11:03:50,781 - INFO - Response generated successfully
+2025-03-17 11:03:50,781 - ERROR - Wellness suggestion error: 'str' object has no attribute 'get'
+2025-03-17 11:04:07,113 - INFO - EmoCare Model initialized successfully
+2025-03-17 11:04:07,976 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-17 11:04:07,980 - INFO - Response generated successfully
+2025-03-17 11:04:07,980 - ERROR - Wellness suggestion error: 'str' object has no attribute 'get'
+2025-03-17 11:04:16,754 - INFO - EmoCare Model initialized successfully
+2025-03-17 11:04:17,489 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-17 11:04:17,493 - INFO - Response generated successfully
+2025-03-17 11:04:17,494 - ERROR - Wellness suggestion error: 'str' object has no attribute 'get'
+2025-03-17 11:04:26,552 - INFO - EmoCare Model initialized successfully
+2025-03-17 11:04:27,431 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-17 11:04:27,433 - INFO - Response generated successfully
+2025-03-17 11:04:27,433 - ERROR - Wellness suggestion error: 'str' object has no attribute 'get'
+2025-03-17 11:04:42,527 - INFO - EmoCare Model initialized successfully
+2025-03-17 11:04:43,406 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-17 11:04:43,409 - INFO - Response generated successfully
+2025-03-17 11:04:43,409 - ERROR - Wellness suggestion error: 'str' object has no attribute 'get'
+2025-03-17 11:04:54,086 - INFO - EmoCare Model initialized successfully
+2025-03-17 11:04:55,075 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-17 11:04:55,078 - INFO - Response generated successfully
+2025-03-17 11:04:55,078 - ERROR - Wellness suggestion error: 'str' object has no attribute 'get'
