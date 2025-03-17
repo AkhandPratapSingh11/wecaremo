@@ -1,20 +1,45 @@
 import os
+import sys
 from groq import Groq
 from dotenv import load_dotenv
 import logging
 
+from openai import api_key
+
 class EmoCareModel:
     def __init__(self):
+        # Specify the exact path to the .env file
+        env_path = '/home/akhand/Desktop/New Folder 1/wecaremo/.env'
+        
         try:
-            load_dotenv()
-            self.client = Groq(
-                api_key=os.getenv('GROQ_API_KEY', '')
-            )
+            # Load environment variables from the specific path
+            load_dotenv(dotenv_path=env_path)
+            
+            # Get API key with more robust checking
+            api_key = os.getenv('GROQ_API_KEY')
+            
+            # Comprehensive API key validation
+            if not api_key:
+                logging.error("GROQ_API_KEY is missing in .env file")
+                raise ValueError("GROQ_API_KEY is missing. Please add your Groq API key to the .env file.")
+            
+            if len(api_key.strip()) < 10:
+                raise ValueError("Invalid API key. Please check your Groq API key.")
+            
+            # Initialize Groq client
+            self.client = Groq(api_key=api_key)
             self.model = "qwen-2.5-32b"
+            
             logging.info("EmoCare Model initialized successfully")
         except Exception as e:
             logging.error(f"Model initialization error: {e}")
+            # Provide more detailed error information
+            print(f"Error Details: {e}")
+            print(f"Environment Path: {env_path}")
+            print(f"Current Working Directory: {os.getcwd()}")
+            print(f"Python Path: {sys.path}")
             raise
+
 
     def generate_response(self, context, user_message):
         """
@@ -22,12 +47,8 @@ class EmoCareModel:
         """
         try:
             # Prepare a comprehensive prompt with context
-            full_prompt = f"""Conversation Context:
-{context}
-
-Latest User Message: {user_message}
-
-Please provide a thoughtful, empathetic, and contextually relevant response."""
+            full_prompt = f"""Conversation Context:{context} Latest User Message: {user_message} 
+                               Please provide a thoughtful, empathetic, and contextually relevant response."""
             
             chat_completion = self.client.chat.completions.create(
                 messages=[
@@ -45,7 +66,7 @@ Please provide a thoughtful, empathetic, and contextually relevant response."""
                     }
                 ],
                 model=self.model,
-                temperature=0.7,
+                temperature=0.5,
                 max_tokens=300
             )
             

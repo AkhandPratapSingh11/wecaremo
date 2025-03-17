@@ -1,0 +1,10 @@
+2025-03-17 10:46:44,440 - INFO - EmoCare Model initialized successfully
+2025-03-17 10:46:44,480 - INFO - EmoCare Model initialized successfully
+2025-03-17 10:46:53,292 - INFO - EmoCare Model initialized successfully
+2025-03-17 10:46:54,089 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-17 10:46:54,095 - INFO - Response generated successfully
+2025-03-17 10:46:54,095 - ERROR - Wellness suggestion error: 'str' object has no attribute 'get'
+2025-03-17 10:47:14,284 - INFO - EmoCare Model initialized successfully
+2025-03-17 10:47:14,977 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-17 10:47:14,980 - INFO - Response generated successfully
+2025-03-17 10:47:14,980 - ERROR - Wellness suggestion error: 'str' object has no attribute 'get'

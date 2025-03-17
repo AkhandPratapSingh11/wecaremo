@@ -1,23 +1,35 @@
 import sys
 import os
-
-# Add project root to Python path
-project_root = os.path.abspath(os.path.dirname(__file__))
-sys.path.insert(0, project_root)
-
 import streamlit as st
+import logging
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    filename='emoCare.log'
+)
 
 def main():
     try:
+        # Dynamically add project root to Python path
+        project_root = os.path.abspath(os.path.dirname(__file__))
+        sys.path.insert(0, project_root)
+
+        # Import frontend main function
         from frontend.frontend import main as frontend_main
+        
+        # Run frontend
         frontend_main()
+
     except ImportError as e:
         st.error(f"Import Error: {e}")
         st.error("Please check your project structure and Python path")
-        st.error(f"Python Path: {sys.path}")
+        logging.error(f"Import error: {e}", exc_info=True)
+    
     except Exception as e:
         st.error(f"An unexpected error occurred: {e}")
-        st.error(f"Traceback: {sys.exc_info()}")
+        logging.error(f"Unexpected error: {e}", exc_info=True)
 
 if __name__ == "__main__":
     main()

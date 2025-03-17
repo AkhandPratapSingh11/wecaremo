@@ -1,11 +1,11 @@
+from .wellness_suggestion import WellnessSuggestions
+from .sentiment_analyzer import SentimentAnalyzer
 from .chatbot import EmoCareAssistant
 from .model import EmoCareModel
-from .sentiment_analyzer import SentimentAnalyzer
-from .wellness_suggestion import WellnessSuggestions
 
 __all__ = [
-    'EmoCareAssistant',
-    'EmoCareModel',
+    'WellnessSuggestions',
     'SentimentAnalyzer',
-    'WellnessSuggestion'
+    'EmoCareAssistant',
+    'EmoCareModel'
 ]
