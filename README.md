@@ -10,6 +10,10 @@ EmoCare is an AI-driven conversational wellness assistant designed to provide **
 - **Memory Retention**: Stores past conversations for context-aware interactions.(currently working on it)
 - **Streamlit-Based UI**: Simple and interactive frontend for seamless user experience.
 
+## 🌐 Live Demo
+Access WeCarEmo directly through our Streamlit deployment:
+[https://wecaremo.streamlit.app/](https://wecaremo.streamlit.app/)
+
 ## 🚀 Tech Stack
 ### **Backend**
 - **Python**
