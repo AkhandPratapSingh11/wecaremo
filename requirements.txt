@@ -6,3 +6,4 @@ groq
 textblob
 python-dotenv
 plotly
+openai
